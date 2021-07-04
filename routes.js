@@ -6,16 +6,14 @@
 */
 
 //Dependencieas
-
+const {sampleHandler} = require('./routesHandlers/sampleHandlers')
 
 //Module Scaffolding
-const handler = {}
 
-
-handler.sampleHandler = {
-	sample:'sample'
+const routes = {
+	sample:sampleHandler
 }
 
 
 
-module.exports = handler
+module.exports = routes

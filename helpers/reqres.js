@@ -9,6 +9,8 @@
 // Dependencies
 const url  = require('url')
 const {StringDecoder}   = require('string_decoder')
+const routes = require('../routes')
+const {notFoundHandler} = require('../routesHandlers/404')
 
 // modul scaffolding
 const handler = {}
@@ -24,18 +26,33 @@ handler.handleReqRes =(req,res)=>{
 	const queryStrings= parsedUrl.query
 	const headersObject= req.headers
 
-	const decoder = new StringDecoder()
-	let realData  = '';
-	
-	req.on('data',(data)=>{
-		realData += decoder.write(data)
-	})
-	req.on('end',()=>{
+	const requestProperties = {
+		parsedUrl,
+		path,
+		trimmedUrl,
+		method,
+		queryStrings,
+		headersObject
+	}
 
-		decoder.end()
-		console.log(realData)
-		res.end()
+	const choosenHandler = routes[trimmedUrl] ? routes[trimmedUrl] : notFoundHandler
+	
+	choosenHandler(requestProperties,(statusCode,payload)=>{
+		statusCode = typeof(statusCode) === 'number' ? statusCode : 500
+
+		payload   = typeof(payload) === 'object' ? payload : {}
+
+		const payloadString = JSON.stringify(payload)
+
+		res.writeHead(statusCode)
+		res.end(payloadString)
+
 	})
+	
+	res.end()
+
+
+
 }
 
 
