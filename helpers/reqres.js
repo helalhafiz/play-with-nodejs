@@ -1,30 +1,34 @@
 /*
-* Title: Handle Req Res
-* Description: Handling the user Requests and Respons
-* Author: Helal Hafiz
-* Date:
-*/
+ * Title: Handle Req Res
+ * Description: Handling the user Requests and Respons
+ * Author: Helal Hafiz
+ * Date:
+ */
 
 
 // Dependencies
-const url  = require('url')
-const {StringDecoder}   = require('string_decoder')
+const url = require('url')
+const {
+	StringDecoder
+} = require('string_decoder')
 const routes = require('../routes')
-const {notFoundHandler} = require('../routesHandlers/404')
+const {
+	notFoundHandler
+} = require('../routesHandlers/404')
 
 // modul scaffolding
 const handler = {}
 
 
 
-handler.handleReqRes =(req,res)=>{
+handler.handleReqRes = (req, res) => {
 
-	const parsedUrl= url.parse(req.url,true)
-	const path 	   = parsedUrl.pathname
-	const trimmedUrl = path.replace(/^\/+|\/+$/g,'')
-	const method   = req.method.toLowerCase()
-	const queryStrings= parsedUrl.query
-	const headersObject= req.headers
+	const parsedUrl = url.parse(req.url, true)
+	const path = parsedUrl.pathname
+	const trimmedUrl = path.replace(/^\/+|\/+$/g, '')
+	const method = req.method.toLowerCase()
+	const queryStrings = parsedUrl.query
+	const headersObject = req.headers
 
 	const requestProperties = {
 		parsedUrl,
@@ -36,11 +40,11 @@ handler.handleReqRes =(req,res)=>{
 	}
 
 	const choosenHandler = routes[trimmedUrl] ? routes[trimmedUrl] : notFoundHandler
-	
-	choosenHandler(requestProperties,(statusCode,payload)=>{
+
+	choosenHandler(requestProperties, (statusCode, payload) => {
 		statusCode = typeof(statusCode) === 'number' ? statusCode : 500
 
-		payload   = typeof(payload) === 'object' ? payload : {}
+		payload = typeof(payload) === 'object' ? payload : {}
 
 		const payloadString = JSON.stringify(payload)
 
@@ -48,7 +52,7 @@ handler.handleReqRes =(req,res)=>{
 		res.end(payloadString)
 
 	})
-	
+
 	res.end()
 
 
@@ -58,6 +62,3 @@ handler.handleReqRes =(req,res)=>{
 
 
 module.exports = handler
-
-
-

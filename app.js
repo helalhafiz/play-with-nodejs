@@ -9,18 +9,22 @@
 const http = require('http')
 const {handleReqRes} = require('./helpers/reqres')
 const environment = require('./helpers/config')
+const data = require('./lib/data')
 // App object - module scaffolding
 
 const app = {};
 
 // App Configuration
 
-app.config = {
+app.config = {  
 	port:3000
 }
 
-//hamza
-console.log(environment)
+
+// @TODO: it will be deleted (testing)
+data.read('test','myfile',(err,data)=>{
+	console.log(data)
+})
 
 // Create Server
 app.createServer = ()=>{
