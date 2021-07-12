@@ -23,8 +23,7 @@ app.config = {
 
 
 // @TODO: it will be deleted (testing)
-const addresses = os.networkInterfaces()
-console.log(addresses) 
+console.log(os) 
 
 // Create Server
 app.createServer = ()=>{
