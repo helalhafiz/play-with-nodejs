@@ -7,11 +7,13 @@
 
 //Dependencieas
 const {sampleHandler} = require('./routesHandlers/sampleHandlers')
+const {userHandler} = require('./routesHandlers/userHandler')
 
 //Module Scaffolding
 
 const routes = {
-	sample:sampleHandler
+	sample:sampleHandler,
+	user:userHandler
 }
 
 

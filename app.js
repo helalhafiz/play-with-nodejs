@@ -10,6 +10,7 @@ const http = require('http')
 const {handleReqRes} = require('./helpers/reqres')
 const environment = require('./helpers/config')
 const data = require('./lib/data')
+const os = require('os')
 // App object - module scaffolding
 
 const app = {};
@@ -22,9 +23,8 @@ app.config = {
 
 
 // @TODO: it will be deleted (testing)
-data.read('test','myfile',(err,data)=>{
-	console.log(data)
-})
+const addresses = os.networkInterfaces()
+console.log(addresses) 
 
 // Create Server
 app.createServer = ()=>{
